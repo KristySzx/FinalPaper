@@ -1,0 +1,2 @@
+model1 is a regression model based on SLR, and Model 2 is a regression model based on MLR
+
