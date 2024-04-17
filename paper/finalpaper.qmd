@@ -1,0 +1,290 @@
+---
+title: "Analysis of the impact of meteorological factors, airline operations and airport facilities on flight delays"
+author: "Zixi Song"
+date: "2024-03-21"
+output: pdf_document
+---
+
+# Introduction
+
+In today's globalized world, air transport is an important link between countries and regions, and its efficiency and punctuality have a profound impact on economic activity and People's Daily lives. However, as a widespread problem in the air transport system, flight delays are not only an inconvenience to passengers, but also a financial burden to airlines and airport operations. Therefore, in-depth understanding and analysis of various factors affecting flight delay is of great significance for improving flight punctuality rate and optimizing the operation of air transport system.
+
+Meteorological conditions such as temperature, rainfall, wind speed and other natural factors are generally considered to be important external factors affecting the on-time rate of flights. In addition, internal factors such as the operational efficiency of airlines, the modernization of airport facilities, and the physical layout of airports also have a non-negligible impact on the punctual departure of flights. Although existing studies have explored these factors from different perspectives, few studies have integrated these factors to comprehensively analyze their combined impact on flight delays using statistical methods.
+
+Based on a flight delay record containing simulated data, this study aims to explore how meteorological factors, airline operational efficiency, airport terminals and other factors affect flight delays through exploratory data analysis, linear regression models, and multiple regression analysis. In particular, this study attempts to explore whether there are significant differences between different airlines and different airport terminals when facing the same meteorological conditions and aircraft capacity, and how these differences affect the on-time departure of flights.
+
+Through a comprehensive analysis of these factors, this study aims to provide strategic recommendations for airport management and airlines to reduce flight delays and improve flight punctuality, thereby improving passenger satisfaction and operational efficiency. In addition, the findings of this study will also provide data support and reference for air transport management departments when formulating relevant policies and measures.
+
+# Method
+
+In order to comprehensively evaluate the impact of meteorological factors, airline operations and airport facilities on flight delays, this study mainly adopts simple linear regression and multiple linear regression research methods to explore the impact analysis of meteorological factors, airline operations and airport facilities on flight delays. This paper will introduce our research methods from the aspects of simple linear regression and multiple regression:
+
+## Simple linear regression (SLR):
+
+A simple linear regression model was used to explore the effect of maximum wind speed (wind_gust) as a numerical explanatory variable on flight delay time. By analyzing the model coefficient and significance test, the influence intensity and statistical significance of wind speed on flight delay were evaluated.
+
+Simple linear regression is a fundamental and powerful tool in statistics, used for analyzing the linear relationship between two continuous variables. Its core purpose is to predict the value of one variable (the dependent variable or response variable) using the value of another (the independent variable or explanatory variable). The simple linear regression model assumes a straight-line relationship between the two variables, implying that changes in the dependent variable can be explained by changes in the independent variable, and this change is consistent.
+
+The simple linear regression model can be expressed by the following mathematical equation:
+
+$$
+Y = \beta_0 + \beta_1X + \epsilon
+$$
+
+where Y represents the dependent variable (e.g., flight delay time).X represents the independent variable (e.g., wind speed).β0​ is the intercept term, indicating the expected value of �Y when �=0X=0.β1​ is the slope term, indicating the average change in �Y for each one-unit increase in �X.ϵ represents the error term, reflecting the impact of factors other than �X on �Y.
+
+In practice, the true values of �0β0​ and �1β1​ are usually unknown, so we need to estimate them from the data. The most common estimation method is the Ordinary Least Squares (OLS), which aims to find the estimates of �0β0​ and �1β1​ that minimize the sum of the squared vertical distances (i.e., the sum of squared residuals) of all data points from the regression line:
+
+$$
+\hat{\beta}_1 = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n} (x_i - \bar{x})^2}
+$$
+
+$$
+\hat{\beta}_0 = \bar{y} - \hat{\beta}_1\bar{x}
+$$
+
+where �\^1β\^​1​ is the estimated slope.�\^0β\^​0​ is the estimated intercept.�ˉxˉ and �ˉyˉ​ are the sample means of �X and �Y, respectively.�n is the number of observations.
+
+In the research topic of this paper, we choose maximum wind speed wind_gust as the independent variable and flight delay as the dependent variable to carry out a simple linear regression model. For the specific modeling process and result analysis, please refer to Section AAA
+
+## Multiple linear regression(MLR)
+
+Multiple linear regression model was constructed, taking flight delay time as response variables, terminal number, airline and whether it rained as categorical variables, and aircraft capacity, air temperature, wind speed and wind direction as numerical explanatory variables. In particular, categorical variables are processed and reference groups are set to analyze their effects on delay time.
+
+Multiple linear regression is a statistical analysis method used to explore the linear relationship between two or more independent variables (explanatory variables) and one dependent variable (response variable). Similar to simple linear regression, multiple linear regression assumes that the dependent variable can be predicted through a linear combination of the independent variables. However, unlike simple linear regression, multiple linear regression considers multiple independent variables, making the analysis more complex and comprehensive.
+
+The multiple linear regression model can be represented by the following mathematical equation:
+
+$$
+Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + ... + \beta_kX_k + \epsilon
+$$
+
+where Y represents the dependent variable.�1,�2,...,��X1​,X2​,...,Xk​ represent the �k independent variables.�0β0​ is the intercept term, indicating the expected value of Y when all the independent variables are 0.�1,�2,...,��β1​,β2​,...,βk​ are the slope terms, indicating the average impact of each independent variable on Y.ϵ represents the error term.
+
+Multiple linear regression also uses the least squares method to estimate model parameters, aiming to minimize the sum of squared residuals between actual observations and model predictions.The specific process can be seen in formula 2
+
+# Exploratory data analysis
+
+## Introduction to dataset
+
+The text uses simulation data from airports to represent delay information for flights departing from individual airports. All flights are commercial flights carrying passengers.This dataset contains delay information for departing flights from a fictional airport and represents simulation data for flight delays under different conditions. Here's a closer look at this dataset:
+
+-   `delay`: the number of minutes after the scheduled departure time that the plane took off (given to 2 decimal places); negative values suggest the plane departed earlier than planned.
+
+-   `terminal`: the airport terminal from which the flight departed (either 1, 2 or 3).
+
+-   `airline`: the airline operating the flight (either `Air1`, `Air2`, `Air3` or `Air4`).
+
+-   `capacity`: the maximum number of passengers the plane can hold.
+
+-   `temperature`: the air temperature at the airport at the scheduled time of departure (in degrees Celsius).
+
+-   `rain`: whether it was raining at the airport at the scheduled time of departure (yes or no).
+
+-   `wind_gust`: the speed of the largest wind gust recorded at the airport that day (in knots).
+
+-   `wind_direct`: the direction of the largest wind gust recorded at the airport that day (in degrees, measured relative to north).
+
+### 
+
+Prior to detailed statistical analysis, exploratory data analysis is a crucial step that helps researchers understand the fundamental properties of the data set, uncover potential patterns and outliers, and test hypotheses. Using the above flights.csv dataset, this study aims to analyze and understand various factors affecting flight delay.The results are as follows:
+
+| delay | terminal | capacity | temperature | wind_gust |
+|-------|----------|----------|-------------|-----------|
+|       |          |          |             |           |
+|       |          |          |             |           |
+|       |          |          |             |           |
+|       |          |          |             |           |
+|       |          |          |             |           |
+|       |          |          |             |           |
+|       |          |          |             |           |
+
+```         
+     delay           terminal        capacity      temperature      wind_gust      wind_direct      Min.   : -8.67   Min.   :1.000   Min.   : 60.0   Min.   :-7.61   Min.   :0.010   Min.   :  0.10    1st Qu.: 43.83   1st Qu.:1.000   1st Qu.:200.0   1st Qu.:11.57   1st Qu.:1.500   1st Qu.: 43.02    Median : 85.25   Median :2.000   Median :275.0   Median :16.05   Median :2.695   Median : 85.45    Mean   : 97.37   Mean   :2.002   Mean   :281.3   Mean   :16.03   Mean   :2.886   Mean   :138.61    3rd Qu.:141.87   3rd Qu.:3.000   3rd Qu.:350.0   3rd Qu.:20.67   3rd Qu.:4.210   3rd Qu.:240.40    Max.   :337.33   Max.   :3.000   Max.   :600.0   Max.   :36.25   Max.   :7.330   Max.   :359.90  
+```
+
+Moreover, ggplot2 and reshape2 were used to visualize the data and then perform EDA analysis
+
+## Univariate analysis
+
+In the univariate analysis stage, the distribution characteristics of numerical variables are evaluated in detail by drawing histograms and box plots. The histogram and box plot of the delay variable are drawn first. The histogram reveals the overall distribution pattern of the variable, while the box plot helps to identify potential outliers. The analysis results of numerical variables are as follows:
+
+Histogram analysis shows that flight delays are mainly concentrated in a shorter time frame, showing a clear right-skewed distribution, which indicates that while most flights are not delayed for long periods of time, there are still some flights that experience longer delays, especially the long tail area on the right side of the histogram, indicating that a small number of flights may experience significantly higher than average delays.
+
+The analysis results of the boxplot reveal that the median flight delay time is located in a relatively low time interval, while the extension of the upper tail and numerous anomalies distributed outside the high delay time suggest that in addition to regular flight delays, there are many extreme delay events, which may be caused by unusual special circumstances, such as bad weather conditions or mechanical failures.
+
+Combining these two charts, we can conclude that while most flight delays were relatively short, quite a few flights experienced considerable delays. The extreme value of these delays can be caused by specific, infrequent events, such as bad weather conditions or technical issues. These findings highlight the importance of further analysis of the causes of delays to optimize flight time management.
+
+According to the visualization results of "Bar Plot of Terminal", the number of flights in the three terminals is relatively evenly distributed, which means that from the perspective of data collection, the number of samples in each terminal is balanced. This provides an equal comparative basis for subsequent analysis, allowing us to conduct reasonable comparative analysis without worrying about bias due to unbalanced sample sizes.
+
+In the "Bar Plot of Airlines," the number of flights across the four airlines also shows a similar uniform distribution. This indicates that the sample size of each airline is basically the same during the data collection process, so that the delay time can be effectively compared between different airlines, without being affected by too much or too little data for one airline.
+
+### Bivariate analysis
+
+The bivariate analysis phase focuses on the relationship between variables. In this study, scatterplot is used to explore the relationship between numerical independent variables and flight delay. These diagrams can reveal whether there is an underlying linear or non-linear relationship between the variables.
+
+In the "Scatter Plot of Delay vs Temperature," the scatter plot shows no clear pattern indicating a direct relationship between temperature and flight delays. Flight delays appear to be distributed randomly at different temperatures, suggesting that temperature may not be the primary factor affecting delays, or that its effect may be masked by other unaccounted for variables.
+
+For the "Scatter Plot of Delay vs Wind Gust", the data points also did not show a clear correlation trend. While there was a slight upward trend in delay times in some wind speed bands, the relationship was inconsistent and had a large number of overlapping data points. This suggests that wind speed alone may not be enough to explain changes in delay times, and that the interaction of wind speed with other variables may need to be considered.
+
+As can be seen from the figure above:
+
+In the box plot of "Delay by Terminal", we can observe that the median delay time of the three terminals is similar, but the delay time distribution range of terminal 1 is slightly wider and there are more outliers. This could imply that more flights in Terminal 1 are experiencing extreme delays, or that there are more variables in Terminal 1 operations that affect flight punctuality.
+
+The box plot of "Delay by Airline" shows that there are certain differences in the median delay time of different airlines, among which Air1 and Air3 have lower median delay time, while Air2 has higher median delay time, and Air2 and Air4 show more abnormal delay values. This could indicate that Air1 and Air3 may be more efficient at scheduling flights, or that their flights are less affected by external influences.
+
+### Correlation analysis
+
+Finally, the Pearson correlation coefficients between the numerical variables were calculated and visualized using heat maps to assess the strength of the linear relationship between the variables. The correlation analysis helps to identify the key factors that may affect flight delay, and also provides the basis for the variable selection of the subsequent multiple linear regression model.
+
+Correlation heat maps show the coefficients of correlation between different variables. The depth of the color represents the size of the correlation coefficient, red indicates a positive correlation, the darker the color indicates a stronger correlation, and white indicates no significant correlation.
+
+From the figure, we can see that:
+
+The delay time (delay) shows a strong positive correlation with terminal and aircraft capacity. This may indicate that differences in terminals and the capacity of aircraft are partly related to flight delays. This may be because certain terminals may face greater passenger flow or operational efficiency issues, while larger capacity aircraft may require longer boarding and departure preparation times.
+
+There is also a positive correlation between terminals and aircraft capacity, suggesting that some terminals may specialize in handling larger aircraft, or that the routes they serve may typically use larger aircraft.
+
+The correlation between other variables such as temperature, wind speed and wind_direct and flight delay time is not very significant, indicating that they may not have a direct or strong impact on flight delay, or it is necessary to consider the role of other variables to understand their relationship with flight delay.
+
+With respect to wind_direct, since wind direction is a directional variable and its value does not directly represent intensity or change, it is reasonable that it has a low or insignificant correlation with delays.
+
+These findings guide us to pay special attention to two variables, terminal and aircraft capacity, and how they may interact with other variables when conducting multiple linear regression analyses.
+
+Through the above exploratory data analysis, this study lays a solid foundation for in-depth understanding of the influencing factors of flight delay, and provides important prerequisite information for further multivariate analysis.
+
+# Modeling Process
+
+## SLR Model construction of Wind_gust and Delay
+
+After completing exploratory data analysis of flights.csv dataset, this study further explores the relationship between wind speed (wind_gust) and flight delay time. According to the theory of the airport management team, wind speed may be a key factor in causing flight delays. To verify this theory, we construct a simple linear regression Model (Model 1), using wind speed as an independent variable (predictor) to predict flight delay time. Using the standard linear regression analysis method, the following model is constructed:
+
+$$
+Delay = \beta_0 + \beta_1 \times WindGust + \epsilon
+$$
+
+where Delay is the time of flight delay and WindGust is the maximum wind speed.It's the intercept,Is the prediction coefficient of wind speed to delay time, and ϵ is the error term.
+
+The model summary is shown as follows:
+
+```         
+Call: lm(formula = delay ~ wind_gust, data = flights)  Residuals:     Min      1Q  Median      3Q     Max  -103.52  -53.49  -13.65   44.59  242.25   Coefficients:             Estimate Std. Error t value Pr(>|t|)     (Intercept)   92.892      3.706  25.066   <2e-16 *** wind_gust      1.552      1.119   1.388    0.165     --- Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1  Residual standard error: 63.87 on 1228 degrees of freedom Multiple R-squared:  0.001566,  Adjusted R-squared:  0.0007531  F-statistic: 1.926 on 1 and 1228 DF,  p-value: 0.1654
+```
+
+## SLR model analysis and result
+
+Intercept: The model estimates an intercept of 92.892, which is the predicted average delay time when the wind speed is 0 knots. The T-value of the intercept is very large, and its p-value is less than 0.001, indicating that the intercept is statistically significant.
+
+wind_gust coefficient: The coefficient of wind speed is 1.552, meaning that the predicted average delay time increases by approximately 1.552 minutes for each additional knot of wind speed. However, the coefficient of wind speed was not statistically significant (p value 0.165), suggesting that the relationship between wind speed and flight delay time was not statistically strong.
+
+R-squared: The R-squared value of the model is 0.001566, which means that the model explains only about 0.16% of the variability of the delay time. This value is very low, indicating that there is little linear relationship between wind speed and flight delay time.
+
+Adjusted R-squared: The adjusted R-squared value is 0.0007531, and R-squared adjusted for degrees of freedom shows similar explanatory power.
+
+F-statistic: The P-value of F-statistic is 0.1654, indicating that the entire model is not statistically significant, which further supports that wind speed is not a strong predictor of flight delay.
+
+The simple linear regression model shows that the relationship between maximum wind speed and flight delay time is not statistically significant (p = 0.165), and the R-squared value of the model is only 0.001566, indicating that the explanatory power of wind speed on flight delay time is extremely low. This suggests that other factors besides wind speed played a role in the delay.
+
+## MLR model construction of Delay
+
+Following the analysis of Model 1, this study further adopts the general linear Model (Model 2) to comprehensively consider more factors that may affect flight delay. In this model, flight delay time is used as a dependent variable, while terminal, airline and rainfall conditions are included as categorical variables, as well as aircraft capacity, air temperature, wind speed and wind direction as numerical variables. Model 2 aims to reveal how, after controlling for multiple variables, these variables independently and collectively affect flight delay times.
+
+The modeling results are as follows:
+
+$$
+\text{Delay} = \beta_0 + \beta_1 \times \text{Terminal} + \beta_2 \times \text{Airline} + \\\beta_3 \times \text{Rain} + \beta_4 \times \text{Capacity} + \\\beta_5 \times \text{Temperature} + \beta_6 \times \text{WindGust} + \\\beta_7 \times \text{WindDirect} + \epsilon
+$$
+
+Here, terminals, airlines, and rainfall conditions are treated as factor variables, and each category is associated with a coefficient that measures the impact of that category relative to a reference group.
+
+```         
+Call: lm(formula = delay ~ terminal + airline + rain + capacity + temperature +      wind_gust + wind_direct, data = flights)  Residuals:     Min      1Q  Median      3Q     Max  -60.403 -14.105  -2.912  12.842 142.810   Coefficients:               Estimate Std. Error t value Pr(>|t|)     (Intercept) -72.027201   3.257775 -22.109  < 2e-16 *** terminal2   -10.062875   1.694169  -5.940 3.72e-09 *** terminal3    -7.226512   1.696220  -4.260 2.20e-05 *** airlineAir2 103.015518   1.929380  53.393  < 2e-16 *** airlineAir3  -4.719053   1.984180  -2.378   0.0175 *   airlineAir4  72.168285   1.987042  36.319  < 2e-16 *** rainyes      10.867492   1.387132   7.835 1.02e-14 *** capacity      0.277917   0.006236  44.567  < 2e-16 *** temperature   2.773309   0.103548  26.783  < 2e-16 *** wind_gust     0.018183   0.585166   0.031   0.9752     wind_direct   0.021913   0.008790   2.493   0.0128 *   --- Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1  Residual standard error: 24.22 on 1219 degrees of freedom Multiple R-squared:  0.8574,   Adjusted R-squared:  0.8563  F-statistic: 733.1 on 10 and 1219 DF,  p-value: < 2.2e-16
+```
+
+## MLR model analysis and result
+
+Overall significance of the model: the F statistic is very high (F-statistic: 733.1), and the p value is much less than 0.001, indicating that the model is statistically significant, and we are fully confident that at least one predictor has a significant impact on flight delays.
+
+Significance of explanatory variables:
+
+Terminals (terminal2 and terminal3) : These two terminals have significantly fewer delays than the reference group (terminal1).
+
+Airlines (airlineAir2 and airlineAir4) : airlineAir2 has significantly longer delays than Air1, while Air4 has significantly more delays. The Air3 delays were relatively short, but the impact was minor.
+
+rainyes: Flight delays increase significantly when it rains.
+
+Aircraft capacity: An increase in aircraft capacity is significantly associated with an increase in flight delays.
+
+temperature: Higher temperatures are significantly associated with increased flight delays.
+
+Wind speed (wind_gust) : Although included in the model, the relationship with flight delay time is not significant.
+
+Wind direction (wind_direct) : has some positive effect on delay time, but the effect is relatively small.
+
+Goodness of fit:
+
+An R-squared value of 0.8574 indicates that the model explains approximately 85.74% of the variability in flight delay times, and an adjusted R-squared value of 0.8563 indicates that the model fits very well.
+
+Residual analysis: The range of residuals is relatively small and the standard error of residuals is 24.22 minutes.
+
+In summary, the model points out that terminals, airlines, rainfall conditions, aircraft capacity and temperature are important factors affecting flight delays. However, the effect of wind speed is not significant in this model and may need to be analyzed in combination with other variables. Wind direction, while showing some influence, plays a relatively small role. These results provide valuable insights for airport management and airlines to reduce flight delays.
+
+# Assumption Checks for Model
+
+Since the effect of model 2 is significantly higher than that of model 1, only the assumption of model 2 is checked in this chapter. It is discussed from three aspects of homoscedasticity, normality of errors and autocorrelation. This paper uses lmtest car nortest packages in R for the checks.
+
+## checks for homoscedasticity
+
+In the scatter plot of the provided residuals and fitted values, the residuals do not show a constant diffusion around the horizontal line, but show a tendency to increase the diffusion as the fit value increases. This pattern usually indicates the presence of heteroscedasticity, meaning that the model's homoscedasticity assumption may have been violated.
+
+Specifically, the spread of the residuals is smaller at both ends of the fit value and larger in the middle region. This non-constant variance may indicate that the model shows varying degrees of accuracy in predictions of different values, and may require more complex transformations to the model or consider using heteroscedasticity robust standard errors to adjust the model estimates. In addition, this irregular distribution of residuals may also suggest that important predictors are missing from the model or that there are non-linear relationships that are not captured.
+
+According to the Breusch-Pagan test results, the BP statistic is 68.266, corresponding to a P-value of 9.574e-11, which is a very small value, far smaller than any conventional significance level (such as 0.05 or 0.01). This means that we can reject the null hypothesis of homoscedasticity and assume that the data is heteroscedasticity. In other words, the variance of the residuals is not constant, but changes as the model's predicted value changes. This may require adjustments to the model or data, for example, to improve the model by transforming the response variables or using heteroscedasticity robust standard errors.
+
+## checks for Normality of Errors
+
+In the provided Q-Q plot, it can be seen that the tail of the data (especially the right tail) deviates from the ideal line of the normal distribution, which indicates that the residual distribution may have a heavier tail. The deviation from the right tail specifically points to some outliers in the model residuals that are higher than would be expected from a normal distribution.
+
+This pattern of the residual distribution in the Q-Q plot usually indicates that the residual does not follow a perfect normal distribution and may require further model diagnosis and adjustment. This deviation may be due to nonlinear relationships in the data, outliers, or the contribution of certain variables to the prediction that is not adequately captured in the model. In actual analysis, it may be necessary to consider data transformations or use more robust statistical methods to deal with this non-normality.
+
+## checks for Autocorrelation
+
+According to the Durbin-Watson test results, the DW value is 2.0101, which is very close to the ideal value of 2 without autocorrelation, and the P-value of 0.5711 is much higher than the usual significance level (e.g. 0.05). This shows that there is not enough evidence to reject the null hypothesis of no autocorrelation, that is, there is no autocorrelation problem in the model residuals. Therefore, we can conclude that there is no obvious autocorrelation in the residual of Model 2, which is a good feature in the analysis of time series data. This means that there does not appear to be a systematic pattern of association between adjacent observations in the model.
+
+# Discussion and Results
+
+Based on the comprehensive analysis of Model 2, including the estimation of model coefficients, the scatter plot of residuals, the results of the Breusch-Pagan test, the Q-Q plot, and the Durbin-Watson test, we can draw the following comprehensive conclusions:
+
+Model significance:
+
+The overall F statistic of the model is very significant, which indicates that we have sufficient evidence that at least one predictor in the model has a significant effect on flight delay time.
+
+Significance of variable:
+
+Most of the predictive variables, including terminals, airlines, rainfall, aircraft capacity and temperature, have a statistically significant impact on flight delay times. The effect of wind speed is not significant, while the effect of wind direction is significant but relatively small.
+
+Homovariance:
+
+The Breusch-Pagan test shows that the residual of the model has heteroscedasticity, which may need to be resolved by data transformation or using heteroscedasticity robust estimation methods.
+
+Normality:
+
+The Q-Q plot shows that the distribution of residuals deviates from the normal distribution at the tail, indicating that there may be nonlinear relationships or uncaptured outliers in the model.
+
+Autocorrelation:
+
+Durbin-Watson test results show that there is no autocorrelation in the residual, which is one of the good features of the model.
+
+In summary, Model 2 effectively captures multiple key factors that affect flight delays, the model accounts for a large amount of variability, and performs well in terms of autocorrelation. However, some assumptions of the model, such as variance and normality, are not satisfied. This may affect the standard error of the model coefficient and the accuracy of the prediction interval. Subsequent work may include transforming the data or using more complex models to address these issues, as well as exploring other potential predictors not included in the model.
+
+These conclusions are valuable to airport management because they reveal potential opportunities to reduce flight delays. By optimizing terminal and airline operational processes, as well as preparing for bad weather, flight on-time performance can be significantly improved. In addition, these findings provide the aviation industry with data-driven insights to improve its services and increase customer satisfaction.
+
+# Conclusion
+
+In this study, we built and analyzed two models, one is simple linear regression Model1, the other is multiple linear regression Model2, which focuses on the study of multiple linear regression Model2, aiming to reveal the key factors affecting the flight delay time. The model combines multiple predictors, from terminal buildings to weather conditions. The results show that terminal, airline, rainfall, aircraft capacity and temperature are significant factors affecting flight delay time.
+
+Although the overall performance of the model is very strong and can account for most of the variability of the delay time, testing of the model hypothesis shows heteroscedasticity and non-normality of the residual distribution. These findings point to areas where the model may need to be improved, such as by changing variables or using more sophisticated statistical methods to improve the robustness of the model.
+
+In addition, the Durbin-Watson test results show that the assumption of the independence of the residual in the time series data is satisfied. This is positive for regression models because it shows that there is no problem with autocorrelation in model predictions.
+
+Taken together, this study provides important insights into understanding the dynamics of flight delays and provides data support for airport management to help them identify possible intervention points to reduce delays and improve flight punctuality. These conclusions provide the airline industry with strategies to optimize operations and enhance passenger satisfaction. Future work could include exploring other potential contributing factors, as well as adopting more advanced models to more accurately predict and manage flight delays.
