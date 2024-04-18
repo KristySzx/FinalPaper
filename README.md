@@ -1,4 +1,4 @@
-# FinalPaper
+# The impact of meteorological factors of flight delay are analyzed by various linear methods
 
 This repository contains data, models, scripts, and the paper related to the analysis of flight delays.
 
